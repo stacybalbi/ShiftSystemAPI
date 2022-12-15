@@ -23,4 +23,8 @@
     <ProjectReference Include="..\Person.Infrastructure\Person.Infrastructure.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="File\" />
+  </ItemGroup>
+
 </Project>

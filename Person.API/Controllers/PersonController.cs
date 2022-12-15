@@ -1,4 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Hosting;
+using System.IO;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Person.Application.Person.Dto;
 using Person.Application.Person.Handlers;
@@ -11,11 +14,14 @@ namespace Person.API.Controllers
     public class PersonController : ControllerBase
     {
         private readonly IPersonHandler _personHandler;
-        public PersonController(IPersonHandler personHandler)
+        private readonly IWebHostEnvironment _env;
+        public PersonController(IPersonHandler personHandler, IWebHostEnvironment env)
         {
             _personHandler = personHandler;
+            _env = env;
         }
 
+        
 
         [HttpGet("{id}")]
         public async Task<IActionResult> Get([FromRoute] int id)
@@ -40,7 +46,7 @@ namespace Person.API.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create([FromBody] PersonDto personDto)
+        public async Task<IActionResult> Create([FromForm] PersonDto personDto)
         {
             try
             {

@@ -7,9 +7,11 @@ using System.Text;
 using System.Threading.Tasks;
 using Person.Application.Generic.Dto;
 using AutoMapper;
+using Person.Application.Interfaces;
 
 namespace Person.Application.Generic.Handlers
 {
+
     public class BaseCrudHandler<TDto, TEntity> : IBaseCrudHandler<TDto, TEntity> where TDto : BaseDto where TEntity : BaseEntity
     {
         private readonly IBaseCrudService<TEntity> _crudService;

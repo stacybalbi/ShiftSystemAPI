@@ -12,26 +12,25 @@ using System.Threading.Tasks;
 
 namespace Person.Infrastructure.Services
 {
-    public class PersonService : IPersonService
+    public class PersonService : BaseCrudService<Domain.Entities.Person>, IPersonService
     {
         private readonly IPersonDbContext _dbContext;
+        private readonly IMapper _mapper;
 
-        public PersonService(IPersonDbContext dbContext)
+        public PersonService(IPersonDbContext dbContext, IMapper mapper) : base(dbContext, mapper)
         {
+            _mapper = mapper;
             _dbContext = dbContext;
         }
 
         public async Task<Domain.Entities.Person> Create(Domain.Entities.Person person)
         {
-            await _dbContext.GetDbSet<Domain.Entities.Person>().AddAsync(person);
-            await _dbContext.SaveChangesAsync();
+            //await _dbContext.GetDbSet<Domain.Entities.Person>().AddAsync(person);
+            //await _dbContext.SaveChangesAsync();
             return person;
         }
 
-        public async Task<List<Domain.Entities.Person>> Get(int top = 50)
-        {
-            return await _dbContext.GetDbSet<Domain.Entities.Person>().Take(top).ToListAsync();
-        }
+        
 
         public async Task<Domain.Entities.Person> GetPersonFromAnalyzeResult(AnalyzeResult analyzeResult)
         {
@@ -50,13 +49,6 @@ namespace Person.Infrastructure.Services
             return await Task.FromResult(person);
         }
 
-        public async Task<Domain.Entities.Person> GetyById(int id)
-        {
-            var person = await _dbContext.GetDbSet<Domain.Entities.Person>().FirstOrDefaultAsync(x => x.Id == id);
 
-            if (person == null) throw new Exception("Person not found");
-
-            return person;
-        }
     }
 }
